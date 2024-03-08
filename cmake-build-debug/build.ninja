@@ -55,6 +55,12 @@ build CMakeFiles/learncpp.dir/main.cpp.obj: CXX_COMPILER__learncpp_unscanned_Deb
   OBJECT_DIR = CMakeFiles\learncpp.dir
   OBJECT_FILE_DIR = CMakeFiles\learncpp.dir
 
+build CMakeFiles/learncpp.dir/mainproject.cpp.obj: CXX_COMPILER__learncpp_unscanned_Debug D$:/git/learncpp/mainproject.cpp || cmake_object_order_depends_target_learncpp
+  DEP_FILE = CMakeFiles\learncpp.dir\mainproject.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\learncpp.dir
+  OBJECT_FILE_DIR = CMakeFiles\learncpp.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target learncpp
@@ -63,7 +69,7 @@ build CMakeFiles/learncpp.dir/main.cpp.obj: CXX_COMPILER__learncpp_unscanned_Deb
 #############################################
 # Link the executable learncpp.exe
 
-build learncpp.exe: CXX_EXECUTABLE_LINKER__learncpp_Debug CMakeFiles/learncpp.dir/main.cpp.obj
+build learncpp.exe: CXX_EXECUTABLE_LINKER__learncpp_Debug CMakeFiles/learncpp.dir/main.cpp.obj CMakeFiles/learncpp.dir/mainproject.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\learncpp.dir

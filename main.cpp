@@ -7,85 +7,60 @@ using namespace std;
 
 class AtbashCipher{
 private:
+    // starting by initializing variables to use later
     string str_normal_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     string str_encrypt_chars = "ZYXWVUTSRQPONMLKJIHGFEDCBA";
+    string str_encrypt_2parts = "MLKJIHGFEDCBAZYXWVUTSRQPON";
+    bool default_encryption = true;
 
     int get_pos_in_string(char c, string str_check) {
+        // taking a string and getting its position in the alphabetic order
         c = toupper(c);
         int pos = int(str_check.find(c));
         return pos;
     }
-public:
-    void encrypt_char(char &chr) {
+
+    void encrypt_decrypt_char(char &chr) {
+        // encrypting or decrypting by swapping the char by equivalent char in the cipher
         int pos = get_pos_in_string(chr, str_normal_chars);
-        chr = str_encrypt_chars[pos];
-    }
-
-    void decrypt_char(char &chr) {
-        int pos = get_pos_in_string(chr, str_encrypt_chars);
-        chr =  str_normal_chars[pos];
-    }
-
-
-};
-
-class run_ciphers{
-private:
-    int cipher_num = 2;
-    AtbashCipher atbash_cipher;
-
-    void encrypt_char(char &chr) {
-        switch (cipher_num) {
-            case 2:{
-                atbash_cipher.encrypt_char(chr);break;
-            }
-
+        if (default_encryption){
+            chr = str_encrypt_chars[pos];
         }
-
-    }
-
-    void decrypt_char(char &chr) {
-        switch (cipher_num) {
-            case 2: {
-                atbash_cipher.decrypt_char(chr);break;
-            }
+        else{
+            chr = str_encrypt_2parts[pos];
         }
     }
+
 
     void remove_non_alpha(string &message){
+        // removing anything in the message that is not a character
         string result;
-        char x= ' ';
         for(char chr: message){
-            if (cipher_num==2)
-                x = 'A';
-            if(isalpha(chr)|| chr == x)
+            if(isalpha(chr))
                 result += chr;
         }
         message = result;
     }
 
-    void encrypt_message(string &message) {
+    void encrypt_decrypt_message(string &message) {
+        // encrypting every character in the prepared message
         remove_non_alpha(message);
         for (char &value: message) {
-            encrypt_char(value);
-        }
-    }
-
-    void decrypt_message(string &message) {
-        remove_non_alpha(message);
-        for (char &value: message) {
-            decrypt_char(value);
+            encrypt_decrypt_char(value);
         }
     }
 
     void print_welcome_menu(){
         cout << "AtbashCipher Menu: \n";
-        cout << "1) Encrypt Message\n";
-        cout << "2) Decrypt Message\n";
-        cout << "3) Main Menu" << endl;
+        cout << "1) Encrypt Message default\n";
+        cout << "2) Decrypt Message default\n";
+        cout << "3) Encrypt Message ( 2 parts )\n";
+        cout << "4) Decrypt Message ( 2 parts )\n";
+        cout << "5) Main Menu" << endl;
     }
 
     int take_choice(int start, int end){
+        // making sure to take a valid choice  from [start, end]
         int choice;
         cout << "Enter choice from (" << start << "-" << end << "):";
         cin >> choice;
@@ -108,31 +83,41 @@ private:
 
     void encryption_menu(){
         string message = get_message("encrypt");
-        encrypt_message(message);
+        encrypt_decrypt_message(message);
         cout << "Encrypted message: \n" << message << endl;
     }
 
     void decryption_menu(){
         string message = get_message("decrypted");
-        decrypt_message(message);
+        encrypt_decrypt_message(message);
         cout << "Decrypted message: \n" << message << endl;
     }
 
 public:
 
-    void run_Cipher(){
+    void run_AtbashCipher(){
         do {
             print_welcome_menu();
-            int choice = take_choice(1, 3);
+            int choice = take_choice(1, 5);
 
             switch (choice) {
                 case 1: {
+                    default_encryption = true;
                     encryption_menu();break;
                 }
                 case 2: {
+                    default_encryption = true;
                     decryption_menu();break;
                 }
-                case 3: return;
+                case 3:{
+                    default_encryption = false;
+                    encryption_menu();break;
+                }
+                case 4:{
+                    default_encryption = false;
+                    decryption_menu();break;
+                }
+                case 5: return;
             }
         } while (true);
     }
@@ -140,8 +125,8 @@ public:
 
 
 int main(){
-    run_ciphers encryption;
-    encryption.run_Cipher();
+    AtbashCipher encryption;
+    encryption.run_AtbashCipher();
 
     return 0;
-    }
+}
